@@ -1,4 +1,4 @@
-{% set version = "2.0.0" %}
+{% set version = "2.0.1" %}
 
 package:
   name: muscat-split
@@ -7,10 +7,10 @@ package:
 
 source:
   url: https://gitlab.com/drti/muscat/-/archive/{{ version }}/muscat-{{ version }}.tar.bz2
-  sha256: c6bc2559bd0a85204a729d0a268eb96d8a9a87ece9303ce568785472dec4b273
+  sha256: 812ec4dda3555a3b22453e64b11f6968e67bde91129c1e242f1992a660e067e8
 
 build:
-  number: 1
+  number: 0
 
 outputs:
   - name: muscat-core
@@ -56,8 +56,8 @@ outputs:
       imports:
         - Muscat
       commands:
-        - python -u -m Muscat.Helpers.Check -k Which  # [osx] 
-        - python -u -m Muscat.Helpers.Check  # [not osx] 
+        - python -u -m Muscat.Helpers.Check -k Which  # [osx]
+        - python -u -m Muscat.Helpers.Check  # [not osx]
 
   - name: "muscat-extensions"
     version: {{ version }}
@@ -94,13 +94,13 @@ outputs:
     version: {{ version }}
     requirements:
       run:
-        - {{ pin_subpackage('muscat-core', max_pin='x.x') }}
-        - {{ pin_subpackage('muscat-extensions', max_pin='x.x') }}
+        - {{ pin_subpackage('muscat-core', max_pin='x.x.x') }}
+        - {{ pin_subpackage('muscat-extensions', max_pin='x.x.x') }}
     test:
       imports:
         - Muscat
       commands:
-        - python -u -m Muscat.Helpers.Check -k Which  # [osx] 
+        - python -u -m Muscat.Helpers.Check -k Which  # [osx]
         - python -u -m Muscat.Helpers.Check  # [not osx]
 
   - name: "muscat-devenv"
@@ -117,7 +117,6 @@ outputs:
       - setuptools-scm
       - eigen
       - scipy >=1.9
-      - eigency
       - scikit-sparse
       - h5py
       - pycgns
@@ -125,6 +124,7 @@ outputs:
       - libboost-headers
       - pytest
       - vtk
+      - cmake
     test:
       imports:
         - numpy
