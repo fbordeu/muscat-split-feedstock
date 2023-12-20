@@ -43,6 +43,8 @@ outputs:
         - llvm-openmp  # [osx]
         - libgomp      # [linux]
         - pip
+        - tbb
+        - tbb-devel
       run:
         - python
         - {{ pin_compatible('numpy') }}
@@ -52,6 +54,7 @@ outputs:
         - mkl
         - networkx >=3.0
         - scikit-sparse
+        - tbb
     test:
       imports:
         - Muscat
