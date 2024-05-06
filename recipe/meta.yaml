@@ -1,4 +1,4 @@
-{% set version = "2.1.0" %}
+{% set version = "2.2.0" %}
 
 package:
   name: muscat-split
@@ -6,8 +6,9 @@ package:
 
 
 source:
-  url: https://gitlab.com/drti/muscat/-/archive/{{ version }}/muscat-{{ version }}.tar.bz2
-  sha256: eabb17364d7afa19c0b0b18eee734f60d4b4c8d21f2d814e7362f7983206514b
+  #url: https://gitlab.com/drti/muscat/-/archive/{{ version }}/muscat-{{ version }}.tar.bz2
+  url: https://gitlab.com/drti/muscat/-/archive/Migration2.2/muscat-Migration2.2.tar.bz2
+  sha256: fd716fb3a669466970675ac75907b8362d42942d33e4d62a90beabc1f4473a8b
 
 build:
   number: 0
@@ -53,14 +54,14 @@ outputs:
         - eigency
         - mkl
         - networkx >=3.0
-        - scikit-sparse
         - tbb
+        - dill
+        - pywin32  # [win]
     test:
       imports:
         - Muscat
       commands:
-        - python -u -m Muscat.Helpers.Check -k Which  # [osx]
-        - python -u -m Muscat.Helpers.Check  # [not osx]
+        - python -u -m Muscat.Helpers.Check
 
   - name: "muscat-extensions"
     version: {{ version }}
@@ -70,7 +71,6 @@ outputs:
         - numpy
         - vtk
         - psutil
-        - scikit-sparse
         - h5py
         - meshio
         - pyvista
@@ -80,11 +80,11 @@ outputs:
         - {{ pin_compatible('numpy') }}
         - vtk
         - psutil
-        - scikit-sparse
         - h5py
         - meshio
         - pyvista
         - networkx >=3.0
+        - mmgsuite  # [not win]
     test:
       imports:
         - psutil
@@ -120,14 +120,17 @@ outputs:
       - setuptools-scm
       - eigen
       - scipy >=1.9
-      - scikit-sparse
       - h5py
       - pycgns
       - networkx >=3.0
       - libboost-headers
       - pytest
       - vtk
-      - cmake
+      - tbb
+      - tbb-devel
+      - matplotlib
+      - coverage
+      - pywin32  # [win]
     test:
       imports:
         - numpy
