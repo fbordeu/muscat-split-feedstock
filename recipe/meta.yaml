@@ -88,7 +88,6 @@ outputs:
     test:
       imports:
         - psutil
-        - sksparse.cholmod
         - h5py
         - meshio
         - networkx
