@@ -6,9 +6,8 @@ package:
 
 
 source:
-  #url: https://gitlab.com/drti/muscat/-/archive/{{ version }}/muscat-{{ version }}.tar.bz2
-  url: https://gitlab.com/drti/muscat/-/archive/Migration2.2/muscat-Migration2.2.tar.bz2
-  sha256: fd716fb3a669466970675ac75907b8362d42942d33e4d62a90beabc1f4473a8b
+  url: https://gitlab.com/drti/muscat/-/archive/{{ version }}/muscat-{{ version }}.tar.bz2
+  sha256: 5cba153a1b4aae92172d72450f42755e2cf386fc39da41099acb740ba02251c6
 
 build:
   number: 0
