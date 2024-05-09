@@ -61,7 +61,8 @@ outputs:
       imports:
         - Muscat
       commands:
-        - python -u -m Muscat.Helpers.Check
+        - python -u -m Muscat.Helpers.Check -k Which  # [osx]
+        - python -u -m Muscat.Helpers.Check  # [not osx]
 
   - name: "muscat-extensions"
     version: {{ version }}
