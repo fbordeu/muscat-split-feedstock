@@ -1,4 +1,4 @@
-{% set version = "2.1.0" %}
+{% set version = "2.2.0" %}
 
 package:
   name: muscat-split
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://gitlab.com/drti/muscat/-/archive/{{ version }}/muscat-{{ version }}.tar.bz2
-  sha256: eabb17364d7afa19c0b0b18eee734f60d4b4c8d21f2d814e7362f7983206514b
+  sha256: 5cba153a1b4aae92172d72450f42755e2cf386fc39da41099acb740ba02251c6
 
 build:
   number: 0
@@ -53,8 +53,9 @@ outputs:
         - eigency
         - mkl
         - networkx >=3.0
-        - scikit-sparse
         - tbb
+        - dill
+        - pywin32  # [win]
     test:
       imports:
         - Muscat
@@ -70,7 +71,6 @@ outputs:
         - numpy
         - vtk
         - psutil
-        - scikit-sparse
         - h5py
         - meshio
         - pyvista
@@ -80,15 +80,14 @@ outputs:
         - {{ pin_compatible('numpy') }}
         - vtk
         - psutil
-        - scikit-sparse
         - h5py
         - meshio
         - pyvista
         - networkx >=3.0
+        - mmgsuite  # [not win]
     test:
       imports:
         - psutil
-        - sksparse.cholmod
         - h5py
         - meshio
         - networkx
@@ -120,14 +119,17 @@ outputs:
       - setuptools-scm
       - eigen
       - scipy >=1.9
-      - scikit-sparse
       - h5py
       - pycgns
       - networkx >=3.0
       - libboost-headers
       - pytest
       - vtk
-      - cmake
+      - tbb
+      - tbb-devel
+      - matplotlib
+      - coverage
+      - pywin32  # [win]
     test:
       imports:
         - numpy
