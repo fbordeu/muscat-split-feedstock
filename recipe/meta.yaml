@@ -1,4 +1,4 @@
-{% set version = "2.2.0" %}
+{% set version = "2.2.1" %}
 
 package:
   name: muscat-split
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://gitlab.com/drti/muscat/-/archive/{{ version }}/muscat-{{ version }}.tar.bz2
-  sha256: 5cba153a1b4aae92172d72450f42755e2cf386fc39da41099acb740ba02251c6
+  sha256: a11d9b8471f897d64e8b14a1af5d537dce5be9b75d14d17a691b623b7367d7b6
 
 build:
   number: 0
@@ -25,10 +25,11 @@ outputs:
 
     requirements:
       build:
-        - python
+        - python                                 # [build_platform != target_platform]
         - cross-python_{{ target_platform }}     # [build_platform != target_platform]
+        - cython                                 # [build_platform != target_platform]
+        - ninja                                  # [build_platform != target_platform]
         - {{ compiler('cxx') }}
-        - cython
       host:
         - python
         - numpy
@@ -108,28 +109,29 @@ outputs:
   - name: "muscat-devenv"
     version: {{ version }}
     requirements:
-      - {{ compiler('cxx') }}
-      - python {{ python }}
-      - numpy
-      - sympy
-      - cython
-      - eigency
-      - mkl
-      - mkl-include
-      - setuptools-scm
-      - eigen
-      - scipy >=1.9
-      - h5py
-      - pycgns
-      - networkx >=3.0
-      - libboost-headers
-      - pytest
-      - vtk
-      - tbb
-      - tbb-devel
-      - matplotlib
-      - coverage
-      - pywin32  # [win]
+      run:
+        - {{ compiler('cxx') }}
+        - python
+        - numpy
+        - sympy
+        - cython
+        - eigency
+        - mkl
+        - mkl-include
+        - setuptools-scm
+        - eigen
+        - scipy >=1.9
+        - h5py
+        - pycgns
+        - networkx >=3.0
+        - libboost-headers
+        - pytest
+        - vtk
+        - tbb
+        - tbb-devel
+        - matplotlib
+        - coverage
+        - pywin32  # [win]
     test:
       imports:
         - numpy
