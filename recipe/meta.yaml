@@ -10,7 +10,7 @@ source:
   sha256: a11d9b8471f897d64e8b14a1af5d537dce5be9b75d14d17a691b623b7367d7b6
 
 build:
-  number: 0
+  number: 1
 
 outputs:
   - name: muscat-core
@@ -30,6 +30,7 @@ outputs:
         - cython                                 # [build_platform != target_platform]
         - ninja                                  # [build_platform != target_platform]
         - {{ compiler('cxx') }}
+        - {{ stdlib("c") }}
       host:
         - python
         - numpy
