@@ -26,8 +26,10 @@ outputs:
     requirements:
       build:
         - python
-        - cross-python_{{ target_platform }}     # [build_platform != target_platform]
+        - cross-python_{{ target_platform }}
+        - cross-python_{{ target_platform }}
         - {{ compiler('cxx') }}
+        - {{ stdlib("c") }}
         - cython
       host:
         - python
@@ -108,28 +110,29 @@ outputs:
   - name: "muscat-devenv"
     version: {{ version }}
     requirements:
-      - {{ compiler('cxx') }}
-      - python {{ python }}
-      - numpy
-      - sympy
-      - cython
-      - eigency
-      - mkl
-      - mkl-include
-      - setuptools-scm
-      - eigen
-      - scipy >=1.9
-      - h5py
-      - pycgns
-      - networkx >=3.0
-      - libboost-headers
-      - pytest
-      - vtk
-      - tbb
-      - tbb-devel
-      - matplotlib
-      - coverage
-      - pywin32  # [win]
+      run:
+        - {{ compiler('cxx') }}
+        - python {{ python }}
+        - numpy
+        - sympy
+        - cython
+        - eigency
+        - mkl
+        - mkl-include
+        - setuptools-scm
+        - eigen
+        - scipy >=1.9
+        - h5py
+        - pycgns
+        - networkx >=3.0
+        - libboost-headers
+        - pytest
+        - vtk
+        - tbb
+        - tbb-devel
+        - matplotlib
+        - coverage
+        - pywin32  # [win]
     test:
       imports:
         - numpy
