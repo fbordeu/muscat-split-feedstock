@@ -30,11 +30,9 @@ outputs:
         - cython                                 # [build_platform != target_platform]
         - ninja                                  # [build_platform != target_platform]
         - {{ compiler('cxx') }}
-        - cython
       host:
         - python
         - numpy
-        - ninja
         - cython
         - sympy
         - eigency
@@ -113,7 +111,7 @@ outputs:
     requirements:
       run:
         - {{ compiler('cxx') }}
-        - python {{ python }}
+        - python
         - numpy
         - sympy
         - cython
