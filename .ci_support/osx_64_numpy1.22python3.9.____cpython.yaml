@@ -35,7 +35,7 @@ tbb:
 tbb_devel:
 - '2021'
 vtk:
-- 9.2.6
+- 9.3.0
 zip_keys:
 - - python
   - numpy
