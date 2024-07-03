@@ -1,4 +1,4 @@
-{% set version = "2.2.1" %}
+{% set version = "2.2.2" %}
 
 package:
   name: muscat-split
@@ -7,10 +7,11 @@ package:
 
 source:
   url: https://gitlab.com/drti/muscat/-/archive/{{ version }}/muscat-{{ version }}.tar.bz2
-  sha256: a11d9b8471f897d64e8b14a1af5d537dce5be9b75d14d17a691b623b7367d7b6
+  sha256: f7a44136eab7b7ec98b6dd4abe14c63d241d16ce3b92bd72a4c5f18de55c7c58
 
 build:
-  number: 2
+  number: 0
+  skip: True  # [py == 38]
 
 outputs:
   - name: muscat-core
@@ -50,7 +51,7 @@ outputs:
       run:
         - python
         - {{ pin_compatible('numpy') }}
-        - scipy >=1.9
+        - scipy >=1.12
         - sympy
         - eigency
         - mkl
