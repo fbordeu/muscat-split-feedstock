@@ -1,4 +1,4 @@
-{% set version = "2.2.2rc8" %}
+{% set version = "2.2.2" %}
 
 package:
   name: muscat-split
