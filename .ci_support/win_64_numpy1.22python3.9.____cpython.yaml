@@ -7,8 +7,8 @@ channel_targets:
 cxx_compiler:
 - vs2019
 libboost_headers:
-- '1.84'
-mkl:
+- '1.86'
+mkl_devel:
 - '2024'
 numpy:
 - '1.22'
@@ -25,7 +25,7 @@ tbb:
 tbb_devel:
 - '2021'
 vtk:
-- 9.3.0
+- 9.3.1
 zip_keys:
 - - python
   - numpy

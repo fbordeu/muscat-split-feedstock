@@ -15,8 +15,8 @@ cxx_compiler_version:
 docker_image:
 - quay.io/condaforge/linux-anvil-cos7-x86_64
 libboost_headers:
-- '1.84'
-mkl:
+- '1.86'
+mkl_devel:
 - '2024'
 numpy:
 - '1.22'
@@ -33,7 +33,7 @@ tbb:
 tbb_devel:
 - '2021'
 vtk:
-- 9.3.0
+- 9.3.1
 zip_keys:
 - - c_stdlib_version
   - cdt_name
