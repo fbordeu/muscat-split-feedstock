@@ -11,7 +11,6 @@ source:
 
 build:
   number: 1
-  skip: True  # [py == 38]
 
 outputs:
   - name: muscat-core
@@ -31,15 +30,14 @@ outputs:
         - cython                                 # [build_platform != target_platform]
         - ninja                                  # [build_platform != target_platform]
         - {{ compiler('cxx') }}
-        - {{ stdlib("c") }}
+        - {{ stdlib('c') }}
       host:
         - python
         - numpy
         - cython
         - sympy
         - eigency
-        - mkl
-        - mkl-include
+        - mkl-devel
         - setuptools-scm
         - eigen
         - libboost-headers
@@ -54,7 +52,6 @@ outputs:
         - scipy >=1.12
         - sympy
         - eigency
-        - mkl
         - networkx >=3.0
         - tbb
         - dill
@@ -118,8 +115,7 @@ outputs:
         - sympy
         - cython
         - eigency
-        - mkl
-        - mkl-include
+        - mkl-devel
         - setuptools-scm
         - eigen
         - scipy >=1.9
