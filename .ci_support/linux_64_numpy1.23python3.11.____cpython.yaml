@@ -11,11 +11,13 @@ channel_targets:
 cxx_compiler:
 - gxx
 cxx_compiler_version:
-- '12'
+- '13'
 docker_image:
 - quay.io/condaforge/linux-anvil-cos7-x86_64
+libboost_headers:
+- '1.84'
 mkl:
-- '2023'
+- '2024'
 numpy:
 - '1.23'
 pin_run_as_build:

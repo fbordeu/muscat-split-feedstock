@@ -13,13 +13,15 @@ channel_targets:
 cxx_compiler:
 - clangxx
 cxx_compiler_version:
-- '16'
+- '17'
+libboost_headers:
+- '1.84'
 llvm_openmp:
-- '16'
+- '17'
 macos_machine:
 - x86_64-apple-darwin13.4.0
 mkl:
-- '2023'
+- '2024'
 numpy:
 - '1.22'
 pin_run_as_build:
