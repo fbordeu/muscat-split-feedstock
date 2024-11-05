@@ -1,4 +1,4 @@
-{% set version = "2.2.2" %}
+{% set version = "2.3.0" %}
 
 package:
   name: muscat-split
@@ -6,8 +6,9 @@ package:
 
 
 source:
-  url: https://gitlab.com/drti/muscat/-/archive/{{ version }}/muscat-{{ version }}.tar.bz2
-  sha256: f7a44136eab7b7ec98b6dd4abe14c63d241d16ce3b92bd72a4c5f18de55c7c58
+  #url: https://gitlab.com/drti/muscat/-/archive/{{ version }}/muscat-{{ version }}.tar.bz2
+  url: https://gitlab.com/drti/muscat/-/archive/To2.3/muscat-To2.3.tar.bz2
+  sha256: 14c12db70e264f8c353b2e333ba08c1a1a4bbe70704afcd3cda63d2e96155825
 
 build:
   number: 1
@@ -85,6 +86,7 @@ outputs:
         - pyvista
         - networkx >=3.0
         - mmgsuite  # [not win]
+        - cvxpy
     test:
       imports:
         - psutil
@@ -130,6 +132,7 @@ outputs:
         - matplotlib
         - coverage
         - pywin32  # [win]
+        - dill
     test:
       imports:
         - numpy
