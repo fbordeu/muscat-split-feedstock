@@ -6,12 +6,11 @@ package:
 
 
 source:
-  #url: https://gitlab.com/drti/muscat/-/archive/{{ version }}/muscat-{{ version }}.tar.bz2
-  url: https://gitlab.com/drti/muscat/-/archive/To2.3/muscat-To2.3.tar.bz2
-  sha256: 14c12db70e264f8c353b2e333ba08c1a1a4bbe70704afcd3cda63d2e96155825
+  url: https://gitlab.com/drti/muscat/-/archive/{{ version }}/muscat-{{ version }}.tar.bz2
+  sha256: e7fdb1b5414843a0b37a04326a787d233153d22b5a5236d4f8a0eaa13441db11
 
 build:
-  number: 1
+  number: 0
 
 outputs:
   - name: muscat-core
@@ -47,6 +46,7 @@ outputs:
         - pip
         - tbb
         - tbb-devel
+        - setuptools
       run:
         - python
         - {{ pin_compatible('numpy') }}
@@ -58,11 +58,17 @@ outputs:
         - dill
         - pywin32  # [win]
     test:
+      requires:
+        - cvxpy
+        - h5py
+        - matplotlib
+        - mmgsuite  # [not win]
       imports:
         - Muscat
       commands:
         - python -u -m Muscat.Helpers.Check -k Which  # [osx]
-        - python -u -m Muscat.Helpers.Check  # [not osx]
+        - python -u -m Muscat.Helpers.Check  # [linux]
+        - python -u -m Muscat.Helpers.Check -k AnisotropicMetricComputation   # [win]
 
   - name: "muscat-extensions"
     version: {{ version }}
@@ -105,7 +111,8 @@ outputs:
         - Muscat
       commands:
         - python -u -m Muscat.Helpers.Check -k Which  # [osx]
-        - python -u -m Muscat.Helpers.Check  # [not osx]
+        - python -u -m Muscat.Helpers.Check  # [linux]
+        - python -u -m Muscat.Helpers.Check -k AnisotropicMetricComputation   # [win]
 
   - name: "muscat-devenv"
     version: {{ version }}
@@ -129,7 +136,7 @@ outputs:
         - vtk
         - tbb
         - tbb-devel
-        - matplotlib
+        - matplotlib-base
         - coverage
         - pywin32  # [win]
         - dill
