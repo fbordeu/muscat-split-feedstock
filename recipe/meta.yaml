@@ -10,7 +10,7 @@ source:
   sha256: e7fdb1b5414843a0b37a04326a787d233153d22b5a5236d4f8a0eaa13441db11
 
 build:
-  number: 0
+  number: 1
 
 outputs:
   - name: muscat-core
@@ -36,7 +36,7 @@ outputs:
         - numpy
         - cython
         - sympy
-        - eigency
+        - eigency =3.4.0.2
         - mkl-devel
         - setuptools-scm
         - eigen
@@ -52,7 +52,7 @@ outputs:
         - {{ pin_compatible('numpy') }}
         - scipy >=1.12
         - sympy
-        - eigency
+        - eigency =3.4.0.2
         - networkx >=3.0
         - tbb
         - dill
@@ -123,7 +123,7 @@ outputs:
         - numpy
         - sympy
         - cython
-        - eigency
+        - eigency =3.4.0.2
         - mkl-devel
         - setuptools-scm
         - eigen
