@@ -1,4 +1,4 @@
-{% set version = "2.3.0" %}
+{% set version = "2.4.0" %}
 
 package:
   name: muscat-split
@@ -6,11 +6,14 @@ package:
 
 
 source:
-  url: https://gitlab.com/drti/muscat/-/archive/{{ version }}/muscat-{{ version }}.tar.bz2
-  sha256: e7fdb1b5414843a0b37a04326a787d233153d22b5a5236d4f8a0eaa13441db11
+  url: https://gitlab.com/drti/muscat/-/archive/master/muscat-master.tar.bz2
+  sha256: 46c55c523186781b99f56a8306b926b1a2fab1d50635511da9baab286e1681bd
+  #url: https://gitlab.com/drti/muscat/-/archive/{{ version }}/muscat-{{ version }}.tar.bz2
+  #sha256: e7fdb1b5414843a0b37a04326a787d233153d22b5a5236d4f8a0eaa13441db11
 
 build:
-  number: 1
+  number: 0
+
 
 outputs:
   - name: muscat-core
@@ -47,22 +50,40 @@ outputs:
         - tbb
         - tbb-devel
         - setuptools
+        - kokkos
+        - mmgsuite
+        - libscotch          # [not win]
+        #so cmake can be tested before install
+        - zlib
+        - scipy >=1.12,<1.15
+        - dill
+        - pywin32
+        - networkx >=3.0
+        - cvxpy
+        - h5py
+        - matplotlib
+        - pycgns-core  # [py > 39]
+        - pycgns  # [py == 39]
       run:
         - python
         - {{ pin_compatible('numpy') }}
-        - scipy >=1.12
+        - scipy >=1.12,<1.15
         - sympy
         - eigency =3.4.0.2
         - networkx >=3.0
         - tbb
         - dill
         - pywin32  # [win]
+        - kokkos
     test:
       requires:
+        - scipy <1.15
         - cvxpy
         - h5py
         - matplotlib
-        - mmgsuite  # [not win]
+        - mmgsuite
+        - pycgns-core  # [py > 39]
+        - pycgns  # [py == 39]
       imports:
         - Muscat
       commands:
@@ -91,8 +112,10 @@ outputs:
         - meshio
         - pyvista
         - networkx >=3.0
-        - mmgsuite  # [not win]
+        - mmgsuite
         - cvxpy
+        - pycgns-core  # [py > 39]
+        - pycgns  # [py == 39]
     test:
       imports:
         - psutil
@@ -127,7 +150,7 @@ outputs:
         - mkl-devel
         - setuptools-scm
         - eigen
-        - scipy >=1.9
+        - scipy >=1.9,<1.15
         - h5py
         - pycgns
         - networkx >=3.0
