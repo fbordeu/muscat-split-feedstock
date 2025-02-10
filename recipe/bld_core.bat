@@ -11,6 +11,7 @@ cmake .. -G "Ninja"                            ^
 -D Muscat_ENABLE_Python:BOOL=ON                ^
 -D Muscat_ENABLE_Documentation=OFF             ^
 -D mmg_DIR:PATH=%PREFIX%/lib/cmake/mmg         ^
+-D Python_EXECUTABLE=%PYTHON%                  ^
 -D CMAKE_PREFIX_PATH="%LIBRARY_PREFIX%"        ^
 -D CMAKE_INSTALL_LIBDIR="Library/lib"          ^
 -D CMAKE_INSTALL_BINDIR="Library/bin"          ^
@@ -18,8 +19,11 @@ cmake .. -G "Ninja"                            ^
 -D CMAKE_INSTALL_DATAROOTDIR="Library/share"   ^
 -D CMAKE_INSTALL_PREFIX="%PREFIX%"
 
+cmake                ^
+  --build .          ^
+  --config Release   ^
+  -j 5
 
-%python% setup.py build_clib
-if errorlevel 1 exit 1
-%python% -m pip install --no-deps . -vv
-if errorlevel 1 exit 1
+cmake                 ^
+--install .           ^
+--config Release

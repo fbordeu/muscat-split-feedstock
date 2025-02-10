@@ -10,7 +10,11 @@ cmake  ${CMAKE_ARG}                            \
 -D Muscat_ENABLE_Kokkos:BOOL=ON                \
 -D Muscat_ENABLE_Python:BOOL=ON                \
 -D Muscat_ENABLE_Documentation=OFF             \
--D mmg_DIR:PATH=%PREFIX%/lib/cmake/mmg         \
+-D mmg_DIR:PATH=${PREFIX}/lib/cmake/mmg        \
+-D PYTHON_EXECUTABLE="${PYTHON}"               \
+-D PYTHON3_EXECUTABLE="${PYTHON}"              \
+-D Python3_EXECUTABLE="${PYTHON}"              \
+-D Python_EXECUTABLE="${PYTHON}"               \
 -D CMAKE_INSTALL_PREFIX=${PREFIX}              \
 -G Ninja                                       \
 -B ${PWD}/cmakeBuild                           \
