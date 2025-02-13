@@ -16,6 +16,8 @@ cxx_compiler_version:
 - '18'
 libboost_headers:
 - '1.86'
+libscotch:
+- 7.0.6
 llvm_openmp:
 - '18'
 macos_machine:
@@ -41,3 +43,5 @@ vtk:
 zip_keys:
 - - python
   - numpy
+zlib:
+- '1'
