@@ -163,6 +163,11 @@ outputs:
         - coverage
         - pywin32  # [win]
         - dill
+        - cmake
+        - kokkos
+        - mmgsuite
+        - pycgns-core  # [py > 39]
+        - pycgns  # [py == 39]
     test:
       imports:
         - numpy
