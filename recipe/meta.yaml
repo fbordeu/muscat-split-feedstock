@@ -1,17 +1,18 @@
 {% set version = "2.4.0" %}
+{% set cuda_major = environ.get("cuda_compiler_version", "0.0").split(".")[0]|int %}
 
 package:
   name: muscat-split
   version: {{ version }}
-
 
 source:
   url: https://gitlab.com/drti/muscat/-/archive/{{ version }}/muscat-{{ version }}.tar.bz2
   sha256: 201258c5568bcac832518633b46dc77ec6ecee65bf2376a5bce2d6f4328293b6
 
 build:
-  number: 1
-
+  number: 2
+  string: "cuda{{ cuda_major }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}"  # [cuda_compiler_version != "None"]
+  string: "cpu_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}"  # [cuda_compiler_version == "None"]
 
 outputs:
   - name: muscat-core
@@ -19,10 +20,16 @@ outputs:
     script: build_core.sh  # [not win]
     script: bld_core.bat  # [win]
     build:
+      script_env:
+        - Muscat_CUDA_ARGS=-DMuscat_ENABLE_CUDA=ON  # [cuda_compiler_version != "None"]
+        - Muscat_CUDA_ARGS=-DMuscat_ENABLE_CUDA=OFF  # [cuda_compiler_version == "None"]
       entry_points:
         - "MeshFileConvert = Muscat.IO.MeshFileConverter:Main"
       skip_compile_pyc:
-        "MuscatParaViewPlugin.py"
+        - "MuscatParaViewPlugin.py"
+      missing_dso_whitelist:
+        - "*/nvcuda.dll"   # [win]
+        - "*/libcuda.so.1"   # [not win]
 
     requirements:
       build:
@@ -32,6 +39,7 @@ outputs:
         - ninja                                  # [build_platform != target_platform]
         - {{ compiler('cxx') }}
         - {{ stdlib('c') }}
+        - {{ compiler('cuda') }}                 # [cuda_compiler_version != "None"]
         - cmake
       host:
         - ninja
@@ -61,11 +69,21 @@ outputs:
         - networkx >=3.0
         - cvxpy
         - h5py
-        - matplotlib
+        - matplotlib-base
         - pycgns-core  # [py > 39]
         - pycgns  # [py == 39]
+  # Will get nvcc linker warnings if the cudatoolkit version doesn't match
+        - cuda-version {{ environ.get("cuda_compiler_version") }}.*  # [cuda_compiler_version != "None"]
+{% if cuda_major == 11 %}
+        - cudatoolkit {{ environ.get("cuda_compiler_version") }}.*
+{% endif %}
+{% if cuda_major == 12 %}
+        - cuda-cudart-dev
+        - cuda-driver-dev   # [not win]
+{% endif %}
       run:
         - python
+        - __cuda  # [cuda_compiler_version != "None"]
         - {{ pin_compatible('numpy') }}
         - scipy >=1.12,<1.15
         - sympy
@@ -81,9 +99,11 @@ outputs:
         - scipy <1.15
         - cvxpy
         - h5py
-        - matplotlib
+        - matplotlib-base
         - pycgns-core  # [py > 39]
         - pycgns  # [py == 39]
+        - ffmpeg=7.0  # [win]
+
       imports:
         - Muscat
       commands:
@@ -162,6 +182,7 @@ outputs:
         - matplotlib-base
         - coverage
         - pywin32  # [win]
+        - ffmpeg=7.0  # [win]
         - dill
         - cmake
         - kokkos
