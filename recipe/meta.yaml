@@ -1,9 +1,9 @@
 {% set version = "2.4.1" %}
+{% set cuda_major = environ.get("cuda_compiler_version", "0.0").split(".")[0]|int %}
 
 package:
   name: muscat-split
   version: {{ version }}
-
 
 source:
   url: https://gitlab.com/drti/muscat/-/archive/{{ version }}/muscat-{{ version }}.tar.bz2
@@ -11,7 +11,8 @@ source:
 
 build:
   number: 2
-
+  string: "cuda{{ cuda_major }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}"  # [cuda_compiler_version != "None"]
+  string: "cpu_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}"  # [cuda_compiler_version == "None"]
 
 outputs:
   - name: muscat-core
@@ -21,10 +22,16 @@ outputs:
     script: bld_core.bat       # [win]
 
     build:
+      script_env:
+        - Muscat_CUDA_ARGS=-DMuscat_ENABLE_CUDA=ON  # [cuda_compiler_version != "None"]
+        - Muscat_CUDA_ARGS=-DMuscat_ENABLE_CUDA=OFF  # [cuda_compiler_version == "None"]
       entry_points:
         - "MeshFileConvert = Muscat.IO.MeshFileConverter:Main"
       skip_compile_pyc:
-        "MuscatParaViewPlugin.py"
+        - "MuscatParaViewPlugin.py"
+      missing_dso_whitelist:
+        - "*/nvcuda.dll"   # [win]
+        - "*/libcuda.so.1"   # [not win]
 
     requirements:
       build:
@@ -34,6 +41,7 @@ outputs:
         - ninja                                  # [build_platform != target_platform]
         - {{ compiler('cxx') }}
         - {{ stdlib('c') }}
+        - {{ compiler('cuda') }}                 # [cuda_compiler_version != "None"]
         - cmake
       host:
         - ninja
@@ -54,9 +62,7 @@ outputs:
         - tbb
         - tbb-devel
         - setuptools
-        # kokkos 4.6 is only available on linux
-        - kokkos >=4.6.00 h*  # [linux]
-        - kokkos =4.4.01 h*  # [not linux]
+
         # mmg software api changes can break the bridge (for version)
         - mmgsuite =5.8
         - libscotch          # [not win]
@@ -74,8 +80,23 @@ outputs:
         - pycgns  # [py == 39]
         - mumps-seq   # [not osx]
         - mumps-include   # [linux]
+
+        # kokkos 4.6 is only available on linux
+        - kokkos >=4.6.00 h*  # [linux and cuda_compiler_version == "None"]
+        - kokkos >=4.6.00 cuda*  # [linux and cuda_compiler_version != "None"]
+        - kokkos =4.4.01 h*  # [not linux]
+  # Will get nvcc linker warnings if the cudatoolkit version doesn't match
+        - cuda-version {{ environ.get("cuda_compiler_version") }}.*  # [cuda_compiler_version != "None"]
+{% if cuda_major == 11 %}
+        - cudatoolkit {{ environ.get("cuda_compiler_version") }}.*
+{% endif %}
+{% if cuda_major == 12 %}
+        - cuda-cudart-dev
+        - cuda-driver-dev   # [not win]
+{% endif %}
       run:
         - python
+        - __cuda  # [cuda_compiler_version != "None"]
         - {{ pin_compatible('numpy') }}
         - scipy >=1.12
         - sympy
@@ -84,7 +105,8 @@ outputs:
         - tbb
         - dill
         - pywin32  # [win]
-        - kokkos >=4.6.00 h*  # [linux]
+        - kokkos >=4.6.00 h*  # [linux and cuda_compiler_version == "None"]
+        - kokkos >=4.6.00 cuda*  # [linux and cuda_compiler_version != "None"]
         - kokkos =4.4.01 h*  # [not linux]
         - mmgsuite =5.8
     test:
@@ -97,6 +119,8 @@ outputs:
         - pycgns-core  # [py > 39]
         - pycgns  # [py == 39]
         - mumps-seq   # [not osx]
+        - ffmpeg=7.0  # [win]
+
       imports:
         - Muscat
       commands:
@@ -177,9 +201,11 @@ outputs:
         - matplotlib-base
         - coverage
         - pywin32  # [win]
+        - ffmpeg=7.0  # [win]
         - dill
         - cmake
-        - kokkos >=4.6.00 h*  # [linux]
+        - kokkos >=4.6.00 h*  # [linux and cuda_compiler_version == "None"]
+        - kokkos >=4.6.00 cuda*  # [linux and cuda_compiler_version != "None"]
         - kokkos =4.4.01 h*  # [not linux]
         - mmgsuite =5.8
         - pycgns-core  # [py > 39]
