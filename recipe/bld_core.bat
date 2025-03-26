@@ -7,7 +7,7 @@ cd build
 cmake .. -G "Ninja"                            ^
 -D CMAKE_BUILD_TYPE=Release                    ^
 -D CMAKE_EXPORT_COMPILE_COMMANDS:BOOL="TRUE"   ^
--D Muscat_ENABLE_Kokkos:BOOL=ON                ^
+-D Muscat_ENABLE_Mumps:BOOL=ON                 ^
 -D Muscat_ENABLE_Python:BOOL=ON                ^
 -D Muscat_ENABLE_Documentation=OFF             ^
 -D mmg_DIR:PATH=%PREFIX%/lib/cmake/mmg         ^
