@@ -20,6 +20,8 @@ libscotch:
 - 7.0.6
 mkl_devel:
 - '2024'
+mumps_seq:
+- 5.7.3
 numpy:
 - '1.22'
 pin_run_as_build:
