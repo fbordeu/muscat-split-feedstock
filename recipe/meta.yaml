@@ -6,10 +6,8 @@ package:
 
 
 source:
-  url: https://gitlab.com/drti/muscat/-/archive/master/muscat-master.tar.bz2
-  #url: https://gitlab.com/drti/muscat/-/archive/{{ version }}/muscat-{{ version }}.tar.bz2
-  #sha256:
-
+  url: https://gitlab.com/drti/muscat/-/archive/{{ version }}/muscat-{{ version }}.tar.bz2
+  sha256: 80d0b27706f5811513a419fb97be4608770835343e667fb6e360eda1c20f8678
 
 build:
   number: 0
@@ -18,8 +16,10 @@ build:
 outputs:
   - name: muscat-core
     version: {{ version }}
-    script: build_core.sh  # [not win]
-    script: bld_core.bat  # [win]
+    script: build_core.sh      # [linux]
+    script: build_core_OsX.sh  # [osx]
+    script: bld_core.bat       # [win]
+
     build:
       entry_points:
         - "MeshFileConvert = Muscat.IO.MeshFileConverter:Main"
@@ -71,7 +71,7 @@ outputs:
       run:
         - python
         - {{ pin_compatible('numpy') }}
-        - scipy >=1.12,<1.15
+        - scipy >=1.12
         - sympy
         - eigency =3.4.0.2
         - networkx >=3.0
@@ -92,9 +92,9 @@ outputs:
       imports:
         - Muscat
       commands:
-        - python -u -m Muscat.Helpers.Check -k Which  # [osx]
+        - python -u -m Muscat.Helpers.Check -k Which -k Mumps  # [osx]
         - python -u -m Muscat.Helpers.Check  # [linux]
-        - python -u -m Muscat.Helpers.Check -k AnisotropicMetricComputation  -k Mumps # [win]
+        - python -u -m Muscat.Helpers.Check -k AnisotropicMetricComputation -k Mumps  # [win]
 
   - name: "muscat-extensions"
     version: {{ version }}
@@ -169,7 +169,7 @@ outputs:
         - pywin32  # [win]
         - dill
         - cmake
-        - kokkos
+        - kokkos =4.4.01=h*
         - mmgsuite =5.8
         - pycgns-core  # [py > 39]
         - pycgns  # [py == 39]
