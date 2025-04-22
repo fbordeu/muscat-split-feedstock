@@ -1,4 +1,4 @@
-{% set version = "2.4.0" %}
+{% set version = "2.4.1" %}
 
 package:
   name: muscat-split
@@ -7,17 +7,19 @@ package:
 
 source:
   url: https://gitlab.com/drti/muscat/-/archive/{{ version }}/muscat-{{ version }}.tar.bz2
-  sha256: 201258c5568bcac832518633b46dc77ec6ecee65bf2376a5bce2d6f4328293b6
+  sha256: 80d0b27706f5811513a419fb97be4608770835343e667fb6e360eda1c20f8678
 
 build:
-  number: 2
+  number: 0
 
 
 outputs:
   - name: muscat-core
     version: {{ version }}
-    script: build_core.sh  # [not win]
-    script: bld_core.bat  # [win]
+    script: build_core.sh      # [linux]
+    script: build_core_OsX.sh  # [osx]
+    script: bld_core.bat       # [win]
+
     build:
       entry_points:
         - "MeshFileConvert = Muscat.IO.MeshFileConverter:Main"
@@ -51,7 +53,7 @@ outputs:
         - tbb-devel
         - setuptools
         - kokkos =4.4.01=h*
-        - mmgsuite
+        - mmgsuite =5.8
         - libscotch          # [not win]
         #so cmake can be tested before install
         - zlib
@@ -64,10 +66,12 @@ outputs:
         - matplotlib-base
         - pycgns-core  # [py > 39]
         - pycgns  # [py == 39]
+        - mumps-seq   # [not osx]
+        - mumps-include   # [linux]
       run:
         - python
         - {{ pin_compatible('numpy') }}
-        - scipy >=1.12,<1.15
+        - scipy >=1.12
         - sympy
         - eigency =3.4.0.2
         - networkx >=3.0
@@ -75,7 +79,7 @@ outputs:
         - dill
         - pywin32  # [win]
         - kokkos =4.4.01=h*
-        - mmgsuite
+        - mmgsuite =5.8
     test:
       requires:
         - scipy <1.15
@@ -84,12 +88,13 @@ outputs:
         - matplotlib-base
         - pycgns-core  # [py > 39]
         - pycgns  # [py == 39]
+        - mumps-seq   # [not osx]
       imports:
         - Muscat
       commands:
-        - python -u -m Muscat.Helpers.Check -k Which  # [osx]
+        - python -u -m Muscat.Helpers.Check -k Which -k Mumps  # [osx]
         - python -u -m Muscat.Helpers.Check  # [linux]
-        - python -u -m Muscat.Helpers.Check -k AnisotropicMetricComputation   # [win]
+        - python -u -m Muscat.Helpers.Check -k AnisotropicMetricComputation -k Mumps  # [win]
 
   - name: "muscat-extensions"
     version: {{ version }}
@@ -112,10 +117,11 @@ outputs:
         - meshio
         - pyvista
         - networkx >=3.0
-        - mmgsuite
+        - mmgsuite =5.8
         - cvxpy
         - pycgns-core  # [py > 39]
         - pycgns  # [py == 39]
+        - mumps-seq   # [not osx]
     test:
       imports:
         - psutil
@@ -163,8 +169,8 @@ outputs:
         - pywin32  # [win]
         - dill
         - cmake
-        - kokkos
-        - mmgsuite
+        - kokkos =4.4.01=h*
+        - mmgsuite =5.8
         - pycgns-core  # [py > 39]
         - pycgns  # [py == 39]
         - cvxpy
