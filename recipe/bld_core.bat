@@ -1,7 +1,7 @@
 setlocal EnableDelayedExpansion
 
-mkdir build
-cd build
+mkdir cmakeBuild%PY_VER%
+cd cmakeBuild%PY_VER%
 
 
 cmake .. -G "Ninja"                            ^

@@ -1,8 +1,9 @@
 set -ex
 
 BUILD_CONFIG=Release
+BUILD_DIR=cmakeBuild${PY_VER}
 
-mkdir cmakeBuild
+mkdir -p ${BUILD_DIR}
 
 cmake  ${CMAKE_ARG}                            \
 -D CMAKE_BUILD_TYPE=${BUILD_CONFIG}            \
@@ -17,17 +18,17 @@ cmake  ${CMAKE_ARG}                            \
 -D Python_EXECUTABLE="${PYTHON}"               \
 -D CMAKE_INSTALL_PREFIX=${PREFIX}              \
 -G Ninja                                       \
--B ${PWD}/cmakeBuild                           \
+-B ${PWD}/${BUILD_DIR}                         \
 -S .
 
-cmake                 \
---build cmakeBuild    \
+cmake                          \
+--build ${BUILD_DIR}           \
 --parallel 16
 
 ctest                             \
---test-dir cmakeBuild             \
+--test-dir ${BUILD_DIR}           \
 --output-on-failure               \
 --exclude-regex NativeMumpsSolver \
 --parallel 16
 
-cmake --install cmakeBuild
+cmake --install ${BUILD_DIR}
