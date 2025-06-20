@@ -180,4 +180,5 @@ Feedstock Maintainers
 =====================
 
 * [@fbordeu](https://github.com/fbordeu/)
+* [@laureleen06](https://github.com/laureleen06/)
 
