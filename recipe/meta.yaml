@@ -38,7 +38,7 @@ outputs:
       host:
         - ninja
         - python
-        - numpy
+        - numpy =1.*
         - cython
         - sympy
         - eigency =3.4.0.2
@@ -101,7 +101,7 @@ outputs:
     requirements:
       host:
         - python
-        - numpy
+        - numpy =1.*
         - vtk
         - psutil
         - h5py
