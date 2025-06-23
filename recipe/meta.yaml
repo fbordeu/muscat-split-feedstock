@@ -10,7 +10,7 @@ source:
   sha256: 80d0b27706f5811513a419fb97be4608770835343e667fb6e360eda1c20f8678
 
 build:
-  number: 0
+  number: 1
 
 
 outputs:
@@ -38,7 +38,7 @@ outputs:
       host:
         - ninja
         - python
-        - numpy
+        - numpy =1.*
         - cython
         - sympy
         - eigency =3.4.0.2
@@ -101,7 +101,7 @@ outputs:
     requirements:
       host:
         - python
-        - numpy
+        - numpy =1.*
         - vtk
         - psutil
         - h5py
@@ -188,3 +188,4 @@ about:
 extra:
   recipe-maintainers:
     - fbordeu
+    - laureleen06
