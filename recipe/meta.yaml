@@ -28,15 +28,15 @@ outputs:
 
     requirements:
       build:
-        - python                                 # [build_platform != target_platform]
-        - cross-python_{{ target_platform }}     # [build_platform != target_platform]
-        - cython                                 # [build_platform != target_platform]
-        - ninja                                  # [build_platform != target_platform]
         - {{ compiler('cxx') }}
         - {{ stdlib('c') }}
+        - cross-python_{{ target_platform }}     # [build_platform != target_platform]
+        - numpy                                 # [build_platform != target_platform]
+        - cython                                 # [build_platform != target_platform]
+        - sympy                                  # [build_platform != target_platform]
+        - ninja                                  # [build_platform != target_platform]
         - cmake
       host:
-        - ninja
         - python
         - numpy =1.*
         - cython
