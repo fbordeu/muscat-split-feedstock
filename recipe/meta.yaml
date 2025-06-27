@@ -12,7 +12,7 @@ source:
 build:
   number: 2
   string: "cuda{{ cuda_major }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}"  # [cuda_compiler_version != "None"]
-  string: "cpu_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}"  # [cuda_compiler_version == "None"]
+  string: "cpu{{ PKG_HASH }}_{{ PKG_BUILDNUM }}"  # [cuda_compiler_version == "None"]
 
 outputs:
   - name: muscat-core
@@ -78,8 +78,8 @@ outputs:
         - matplotlib-base
         - pycgns-core  # [py > 39]
         - pycgns  # [py == 39]
-        - mumps-seq   # [not osx]
-        - mumps-include   # [linux]
+        - mumps-seq  # [not osx]
+        - mumps-include  # [linux]
 
         # kokkos 4.6 is only available on linux
         - kokkos >=4.6.00 h*  # [linux and cuda_compiler_version == "None"]
@@ -92,7 +92,7 @@ outputs:
 {% endif %}
 {% if cuda_major == 12 %}
         - cuda-cudart-dev
-        - cuda-driver-dev   # [not win]
+        - cuda-driver-dev  # [not win]
 {% endif %}
       run:
         - python
@@ -119,7 +119,7 @@ outputs:
         - pycgns-core  # [py > 39]
         - pycgns  # [py == 39]
         - mumps-seq   # [not osx]
-        - ffmpeg=7.0  # [win]
+        - ffmpeg =7.0.*  # [win]
 
       imports:
         - Muscat
