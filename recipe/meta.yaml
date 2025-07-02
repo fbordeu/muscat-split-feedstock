@@ -43,7 +43,8 @@ outputs:
         - numpy =1.*  # [py < 313]
         - cython
         - sympy
-        - eigency
+        #first version of eigency compatible with numpy 2
+        - eigency =3.4.0.4
         - mkl-devel
         - setuptools-scm
         - eigen
@@ -79,7 +80,7 @@ outputs:
         - {{ pin_compatible('numpy') }}
         - scipy >=1.12
         - sympy
-        - eigency
+        - eigency =3.4.0.4
         - networkx >=3.0
         - tbb
         - dill
@@ -162,7 +163,7 @@ outputs:
         - numpy =1.*  # [py < 313]
         - sympy
         - cython
-        - eigency
+        - eigency =3.4.0.4
         - mkl-devel
         - setuptools-scm
         - eigen
