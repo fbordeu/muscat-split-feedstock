@@ -1,0 +1,160 @@
+schema_version: 1
+
+context:
+  name: Muscat
+  version: 2.5.2
+
+recipe:
+  name: muscat-split
+  version: ${{ version }}
+
+source:
+  - url: https://gitlab.com/drti/muscat/-/archive/${{ version }}/${{ name|lower }}-${{ version }}.tar.bz2
+    sha256: f667b180c3c24e33219bf01b651bd145101680aac15f881c47b32b9753f0d98b
+
+build:
+  number: 0
+
+outputs:
+  - package:
+      name: muscat-core
+    build:
+      script:
+        - if: linux
+          then: build_core.sh
+        - if: osx
+          then: build_core_OsX.sh
+        - if: win
+          then: bld_core.bat
+
+      python:
+        entry_points:
+          - MeshFileConvert = Muscat.IO.MeshFileConverter:Main
+
+
+    requirements:
+      build:
+        - if: build_platform != target_platform
+          then:
+            - python
+            - cross-python_${{ target_platform }}
+            - cython
+            - ninja
+        - ${{ compiler('cxx') }}
+        - ${{ stdlib('c') }}
+        - cmake
+      host:
+        ## Build dependencies only
+        - ninja
+        - pip
+        - setuptools-scm
+        - setuptools
+        - cython
+        - mkl-devel
+        - libboost-headers
+        - libvulkan-headers
+        - libxml2
+        ## Common dependencies between run and build
+        - python
+        - numpy >=2
+        - sympy
+        - eigency =3.4.0.4
+        - eigen =3.4
+        - kokkos =4.7.01 h*
+        - arborx =2.0.1 h*
+        - mmgsuite =5.8
+        - if: osx
+          then: llvm-openmp >=21.1.5
+        - if: linux
+          then: libgomp
+        - if: win
+          then: pywin32
+      run:
+        ## Common dependencies between run and build
+        - python
+        - ${{ pin_compatible('numpy') }}
+        - sympy
+        - eigency =3.4.0.4
+        - eigen =3.4
+        - kokkos =4.7.01 h*
+        - arborx =2.0.1 h*
+        - mmgsuite =5.8
+        - if: osx
+          then: llvm-openmp >=21.1.5
+        - if: linux
+          then: libgomp
+        - if: win
+          then: pywin32
+        ## Run dependencies only for muscat-core
+        - scipy >=1.12
+        - networkx >=3
+        - dill
+        - cvxpy
+        - pycgns-core
+        - h5py
+        - matplotlib-base
+
+    tests:
+      - python:
+          imports:
+            - Muscat
+      - script:
+          - if: osx
+            then:
+              - export OMP_NUM_THREADS=1
+              - python -u -m Muscat.Helpers.Check -k Which -k Mumps
+          - if: linux
+            then:
+              - export OMP_NUM_THREADS=1
+              - python -u -m Muscat.Helpers.Check -k Mumps
+          - if: win
+            then: python -u -m Muscat.Helpers.Check -k AnisotropicMetricComputation -k Mumps
+
+
+  - package:
+      name: muscat
+    requirements:
+      run:
+        - ${{ pin_subpackage('muscat-core', upper_bound='x.x.x') }}
+
+        ## Extensions for muscat that are not in muscat-core
+        - vtk
+        - psutil
+        - meshio
+        - pyvista >=0.47
+        - python-mumps
+
+    tests:
+      ## Testing import for muscat and just added packages
+      - python:
+          imports:
+            - Muscat
+            - psutil
+            - pyvista
+            - meshio
+            - mumps
+
+      ## Same tests than muscat-core but we no longer ignore Mumps
+      - script:
+          - if: osx
+            then:
+              - export OMP_NUM_THREADS=1
+              - python -u -m Muscat.Helpers.Check -k Which
+          - if: linux
+            then:
+              - export OMP_NUM_THREADS=1
+              - python -u -m Muscat.Helpers.Check
+          - if: win
+            then: python -u -m Muscat.Helpers.Check -k AnisotropicMetricComputation
+
+about:
+  homepage: https://gitlab.com/drti/muscat
+  license: BSD-3-Clause
+  license_file: LICENSE.txt
+  summary: Tools for finite element computations
+
+extra:
+  recipe-maintainers:
+    - fbordeu
+    - laureleen06
+    - casenave
