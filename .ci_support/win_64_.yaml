@@ -7,7 +7,7 @@ channel_targets:
 cxx_compiler:
 - vs2022
 libboost_headers:
-- '1.88'
+- '1.90'
 libxml2:
 - '2.14'
 mkl_devel:
