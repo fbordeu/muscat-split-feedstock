@@ -13,11 +13,11 @@ channel_targets:
 cxx_compiler:
 - clangxx
 cxx_compiler_version:
-- '19'
+- '21'
 libboost_headers:
 - '1.90'
 libxml2:
-- '2.14'
+- '2.15'
 macos_machine:
 - x86_64-apple-darwin13.4.0
 mkl_devel:
@@ -27,7 +27,6 @@ pin_run_as_build:
     min_pin: x.x
     max_pin: x.x
 python:
-- 3.10.* *_cpython
 - 3.11.* *_cpython
 - 3.12.* *_cpython
 - 3.13.* *_cp313
