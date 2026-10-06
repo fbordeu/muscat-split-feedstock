@@ -60,8 +60,8 @@ outputs:
         - sympy
         - eigency =3.4.0.4
         - eigen =3.4
-        - kokkos =4.7.01 h*
-        - arborx =2.0.1 h*
+        - kokkos >=5 h*
+        - arborx >=2.0.1 h*
         - mmgsuite =5.8
         - pacman
         - if: osx
@@ -77,7 +77,7 @@ outputs:
         - sympy
         - eigency =3.4.0.4
         - eigen =3.4
-        - kokkos =4.7.01 h*
+        - kokkos >=5 h*
         - arborx =2.0.1 h*
         - mmgsuite =5.8
         - if: osx
