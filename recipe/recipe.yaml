@@ -2,7 +2,7 @@ schema_version: 1
 
 context:
   name: Muscat
-  version: 2.5.2
+  version: ParMmg
 
 recipe:
   name: muscat-split
@@ -10,10 +10,10 @@ recipe:
 
 source:
   - url: https://gitlab.com/drti/muscat/-/archive/${{ version }}/${{ name|lower }}-${{ version }}.tar.bz2
-    sha256: f667b180c3c24e33219bf01b651bd145101680aac15f881c47b32b9753f0d98b
+    sha256: 9d509e15
 
 build:
-  number: 2
+  number: 0
 
 outputs:
   - package:
@@ -63,6 +63,7 @@ outputs:
         - kokkos =4.7.01 h*
         - arborx =2.0.1 h*
         - mmgsuite =5.8
+        - pacman
         - if: osx
           then: llvm-openmp >=21.1.5
         - if: linux
@@ -123,6 +124,7 @@ outputs:
         - meshio
         - pyvista >=0.47
         - python-mumps
+        - pacman
 
     tests:
       ## Testing import for muscat and just added packages
