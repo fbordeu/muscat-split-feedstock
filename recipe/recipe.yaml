@@ -103,13 +103,13 @@ outputs:
           - if: osx
             then:
               - export OMP_NUM_THREADS=1
-              - python -u -m Muscat.Helpers.Check -k Which -k Mumps
+              - python -u -m Muscat.Helpers.Check -k Which -k Mumps -k PARMMGWrapper
           - if: linux
             then:
               - export OMP_NUM_THREADS=1
-              - python -u -m Muscat.Helpers.Check -k Mumps
+              - python -u -m Muscat.Helpers.Check -k Mumps  -k PARMMGWrapper
           - if: win
-            then: python -u -m Muscat.Helpers.Check -k AnisotropicMetricComputation -k Mumps
+            then: python -u -m Muscat.Helpers.Check -k AnisotropicMetricComputation -k Mumps  -k PARMMGWrapper
 
 
   - package:
@@ -141,13 +141,13 @@ outputs:
           - if: osx
             then:
               - export OMP_NUM_THREADS=1
-              - python -u -m Muscat.Helpers.Check -k Which
+              - python -u -m Muscat.Helpers.Check -k Which -k PARMMGWrapper
           - if: linux
             then:
               - export OMP_NUM_THREADS=1
-              - python -u -m Muscat.Helpers.Check
+              - python -u -m Muscat.Helpers.Check -k PARMMGWrapper
           - if: win
-            then: python -u -m Muscat.Helpers.Check -k AnisotropicMetricComputation
+            then: python -u -m Muscat.Helpers.Check -k AnisotropicMetricComputation -k PARMMGWrapper
 
 about:
   homepage: https://gitlab.com/drti/muscat
